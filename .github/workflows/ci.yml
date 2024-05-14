@@ -17,7 +17,7 @@ jobs:
     runs-on: windows-latest
 
     env:
-      Solution_Name: src/PluginSamples.sln
+      Solution_Name: src\PluginSamples.sln
       Test_Project_Path: not-available
       Wap_Project_Directory: not-applicable
       Wap_Project_Path: not-applicable
@@ -40,7 +40,7 @@ jobs:
       shell: powershell
       run: |
         Get-ChildItem *.*proj -Recurse -Depth 1 | ForEach-Object {
-          msbuild $_.FullName /t:Build "/p:OutputPath=$([io.path]::Combine($PWD, 'out', $env:Configuration, $_.BaseName)" /p:Configuration=$env:Configuration /p:Platform=x64
+          msbuild $_.FullName /t:Build "/p:OutputPath=$([io.path]::Combine($PWD, 'out', $env:Configuration, $_.BaseName))" /p:Configuration=$env:Configuration /p:Platform=x64
         }
       env:
         Configuration: ${{ matrix.configuration }}
