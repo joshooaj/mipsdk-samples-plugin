@@ -67,12 +67,6 @@ jobs:
       
       - uses: actions/download-artifact@v4
         with:
-          name: Release
-          merge-multiple: true
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: Debug
           merge-multiple: true
       
       - name: Create release
