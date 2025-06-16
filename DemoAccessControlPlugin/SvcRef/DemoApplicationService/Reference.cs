@@ -253,7 +253,13 @@ namespace DemoAccessControlPlugin.DemoApplicationService {
         private bool HasRexButtonField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double LatitudeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool LockCommandSupportedField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private double LongitudeField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool UnlockCommandSupportedField;
@@ -334,6 +340,19 @@ namespace DemoAccessControlPlugin.DemoApplicationService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
+        public double Latitude {
+            get {
+                return this.LatitudeField;
+            }
+            set {
+                if ((this.LatitudeField.Equals(value) != true)) {
+                    this.LatitudeField = value;
+                    this.RaisePropertyChanged("Latitude");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
         public bool LockCommandSupported {
             get {
                 return this.LockCommandSupportedField;
@@ -342,6 +361,19 @@ namespace DemoAccessControlPlugin.DemoApplicationService {
                 if ((this.LockCommandSupportedField.Equals(value) != true)) {
                     this.LockCommandSupportedField = value;
                     this.RaisePropertyChanged("LockCommandSupported");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public double Longitude {
+            get {
+                return this.LongitudeField;
+            }
+            set {
+                if ((this.LongitudeField.Equals(value) != true)) {
+                    this.LongitudeField = value;
+                    this.RaisePropertyChanged("Longitude");
                 }
             }
         }
@@ -1077,6 +1109,30 @@ namespace DemoAccessControlPlugin.DemoApplicationService {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWebService/LockDoor", ReplyAction="http://tempuri.org/IWebService/LockDoorResponse")]
         System.Threading.Tasks.Task<bool> LockDoorAsync(string userName, string password, string vmsUserName, System.Guid doorId);
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWebService/UnlockAllDoorsOnDoorController", ReplyAction="http://tempuri.org/IWebService/UnlockAllDoorsOnDoorControllerResponse")]
+        bool UnlockAllDoorsOnDoorController(string userName, string password, string vmsUserName, System.Guid doorControllerId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWebService/UnlockAllDoorsOnDoorController", ReplyAction="http://tempuri.org/IWebService/UnlockAllDoorsOnDoorControllerResponse")]
+        System.Threading.Tasks.Task<bool> UnlockAllDoorsOnDoorControllerAsync(string userName, string password, string vmsUserName, System.Guid doorControllerId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWebService/LockAllDoorsOnDoorController", ReplyAction="http://tempuri.org/IWebService/LockAllDoorsOnDoorControllerResponse")]
+        bool LockAllDoorsOnDoorController(string userName, string password, string vmsUserName, System.Guid doorControllerId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWebService/LockAllDoorsOnDoorController", ReplyAction="http://tempuri.org/IWebService/LockAllDoorsOnDoorControllerResponse")]
+        System.Threading.Tasks.Task<bool> LockAllDoorsOnDoorControllerAsync(string userName, string password, string vmsUserName, System.Guid doorControllerId);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWebService/UnlockAllDoors", ReplyAction="http://tempuri.org/IWebService/UnlockAllDoorsResponse")]
+        bool UnlockAllDoors(string userName, string password, string vmsUserName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWebService/UnlockAllDoors", ReplyAction="http://tempuri.org/IWebService/UnlockAllDoorsResponse")]
+        System.Threading.Tasks.Task<bool> UnlockAllDoorsAsync(string userName, string password, string vmsUserName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWebService/LockAllDoors", ReplyAction="http://tempuri.org/IWebService/LockAllDoorsResponse")]
+        bool LockAllDoors(string userName, string password, string vmsUserName);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWebService/LockAllDoors", ReplyAction="http://tempuri.org/IWebService/LockAllDoorsResponse")]
+        System.Threading.Tasks.Task<bool> LockAllDoorsAsync(string userName, string password, string vmsUserName);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWebService/GetDoorStatus", ReplyAction="http://tempuri.org/IWebService/GetDoorStatusResponse")]
         DemoApplicationService.DoorStatus GetDoorStatus(string userName, string password, System.Guid doorId);
         
@@ -1106,6 +1162,12 @@ namespace DemoAccessControlPlugin.DemoApplicationService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWebService/UpdateEventTypeEnabledStates", ReplyAction="http://tempuri.org/IWebService/UpdateEventTypeEnabledStatesResponse")]
         System.Threading.Tasks.Task UpdateEventTypeEnabledStatesAsync(string userName, string password, System.Tuple<string, bool>[] changedStates);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWebService/UpdateAccessControlUnitPosition", ReplyAction="http://tempuri.org/IWebService/UpdateAccessControlUnitPositionResponse")]
+        void UpdateAccessControlUnitPosition(string userName, string password, System.Tuple<string, double, double>[] unitPositions);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IWebService/UpdateAccessControlUnitPosition", ReplyAction="http://tempuri.org/IWebService/UpdateAccessControlUnitPositionResponse")]
+        System.Threading.Tasks.Task UpdateAccessControlUnitPositionAsync(string userName, string password, System.Tuple<string, double, double>[] unitPositions);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -1215,6 +1277,38 @@ namespace DemoAccessControlPlugin.DemoApplicationService {
             return base.Channel.LockDoorAsync(userName, password, vmsUserName, doorId);
         }
         
+        public bool UnlockAllDoorsOnDoorController(string userName, string password, string vmsUserName, System.Guid doorControllerId) {
+            return base.Channel.UnlockAllDoorsOnDoorController(userName, password, vmsUserName, doorControllerId);
+        }
+        
+        public System.Threading.Tasks.Task<bool> UnlockAllDoorsOnDoorControllerAsync(string userName, string password, string vmsUserName, System.Guid doorControllerId) {
+            return base.Channel.UnlockAllDoorsOnDoorControllerAsync(userName, password, vmsUserName, doorControllerId);
+        }
+        
+        public bool LockAllDoorsOnDoorController(string userName, string password, string vmsUserName, System.Guid doorControllerId) {
+            return base.Channel.LockAllDoorsOnDoorController(userName, password, vmsUserName, doorControllerId);
+        }
+        
+        public System.Threading.Tasks.Task<bool> LockAllDoorsOnDoorControllerAsync(string userName, string password, string vmsUserName, System.Guid doorControllerId) {
+            return base.Channel.LockAllDoorsOnDoorControllerAsync(userName, password, vmsUserName, doorControllerId);
+        }
+        
+        public bool UnlockAllDoors(string userName, string password, string vmsUserName) {
+            return base.Channel.UnlockAllDoors(userName, password, vmsUserName);
+        }
+        
+        public System.Threading.Tasks.Task<bool> UnlockAllDoorsAsync(string userName, string password, string vmsUserName) {
+            return base.Channel.UnlockAllDoorsAsync(userName, password, vmsUserName);
+        }
+        
+        public bool LockAllDoors(string userName, string password, string vmsUserName) {
+            return base.Channel.LockAllDoors(userName, password, vmsUserName);
+        }
+        
+        public System.Threading.Tasks.Task<bool> LockAllDoorsAsync(string userName, string password, string vmsUserName) {
+            return base.Channel.LockAllDoorsAsync(userName, password, vmsUserName);
+        }
+        
         public DemoApplicationService.DoorStatus GetDoorStatus(string userName, string password, System.Guid doorId) {
             return base.Channel.GetDoorStatus(userName, password, doorId);
         }
@@ -1253,6 +1347,14 @@ namespace DemoAccessControlPlugin.DemoApplicationService {
         
         public System.Threading.Tasks.Task UpdateEventTypeEnabledStatesAsync(string userName, string password, System.Tuple<string, bool>[] changedStates) {
             return base.Channel.UpdateEventTypeEnabledStatesAsync(userName, password, changedStates);
+        }
+        
+        public void UpdateAccessControlUnitPosition(string userName, string password, System.Tuple<string, double, double>[] unitPositions) {
+            base.Channel.UpdateAccessControlUnitPosition(userName, password, unitPositions);
+        }
+        
+        public System.Threading.Tasks.Task UpdateAccessControlUnitPositionAsync(string userName, string password, System.Tuple<string, double, double>[] unitPositions) {
+            return base.Channel.UpdateAccessControlUnitPositionAsync(userName, password, unitPositions);
         }
     }
 }

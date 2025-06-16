@@ -232,6 +232,70 @@ namespace DemoAccessControlPlugin.Client
             }
         }
 
+        public void LockDoorOnAccessPoint(string accessPointId, string username, string password, string vmsUsername)
+        {
+            string doorId = TypeConverter.GetDoorIdFromAccessPointId(accessPointId);
+            LockDoor(doorId, username, password, vmsUsername);
+        }
+
+        public void UnLockDoorOnAccessPoint(string accessPointId, string username, string password, string vmsUsername)
+        {
+            string doorId = TypeConverter.GetDoorIdFromAccessPointId(accessPointId);
+            UnlockDoor(doorId, username, password, vmsUsername);
+        }
+
+        public void LockAllDoorsOnController(string controllerId, string username, string password, string vmsUsername)
+        {
+            Guid doorControllerId;
+            if (Guid.TryParse(controllerId, out doorControllerId))
+            {
+                var success = TryCall(client => client.LockAllDoorsOnDoorController(username, password, vmsUsername, doorControllerId));
+                if (!success)
+                {
+                    throw new DemoApplicationClientException("Failed to lock all the doors on the controller.");
+                }
+            }
+            else
+            {
+                throw new DemoApplicationClientException($"LockAllDoorsOnController: Error parsing Guid. ControllerId: {doorControllerId}");
+            }
+        }
+
+        public void UnlockAllDoorsOnController(string controllerId, string username, string password, string vmsUsername)
+        {
+            Guid controllerIdGuid;
+            if (Guid.TryParse(controllerId, out controllerIdGuid))
+            {
+                var success = TryCall(client => client.UnlockAllDoorsOnDoorController(username, password, vmsUsername, controllerIdGuid));
+                if (!success)
+                {
+                    throw new DemoApplicationClientException("Failed to unlock all the doors on the controller.");
+                }
+            }
+            else
+            {
+                throw new DemoApplicationClientException($"UnlockAllDoorsOnController: Error parsing Guid. ControllerId: {controllerId}");
+            }
+        }
+
+        public void LockAllDoors(string username, string password, string vmsUsername)
+        {
+            var success = TryCall(client => client.LockAllDoors(username, password, vmsUsername));
+            if (!success)
+            {
+                throw new DemoApplicationClientException("Failed to lock all the doors on the system.");
+            }
+        }
+
+        public void UnlockAllDoors(string username, string password, string vmsUsername)
+        {
+            var success = TryCall(client => client.UnlockAllDoors(username, password, vmsUsername));
+            if (!success)
+            {
+                throw new DemoApplicationClientException("Failed to unlock all the doors on the system.");
+            }
+        }
+
         public async Task CloseAlarmAsync(string doorId, string eventTypeId)
         {
             Guid doorIdGuid;
@@ -287,6 +351,11 @@ namespace DemoAccessControlPlugin.Client
         public async Task UpdateEventTypeEnabledStates(string username, string password, Tuple<string, bool>[] changedStates)
         {
             await TryCall(client => client.UpdateEventTypeEnabledStatesAsync(username, password, changedStates));
+        }
+
+        public async Task UpdateAccessControlUnitPosition(string username, string password, Tuple<string, double, double>[] unitPositions)
+        {
+            await TryCall(client => client.UpdateAccessControlUnitPositionAsync(username, password, unitPositions));
         }
 
         public async Task<EventDescriptor[]> GetEventTypesAsync()

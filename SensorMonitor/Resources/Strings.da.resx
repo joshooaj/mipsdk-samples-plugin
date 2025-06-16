@@ -126,6 +126,21 @@
   <data name="DEACTIVATESENSOR" xml:space="preserve">
     <value>Deaktiver Sensor</value>
   </data>
+  <data name="EVENTGROUPNAME" xml:space="preserve">
+    <value>MIPSDK Sensor Monitor gruppe</value>
+  </data>
+  <data name="ITEMSTATUSDETAILS_CONTROLLERSTATE" xml:space="preserve">
+    <value>Styringsenhedsstatus</value>
+  </data>
+  <data name="ITEMSTATUSDETAILS_ORPHAN" xml:space="preserve">
+    <value>Forældreløs</value>
+  </data>
+  <data name="ITEMSTATUSDETAILS_PARENT" xml:space="preserve">
+    <value>Forælder</value>
+  </data>
+  <data name="ITEMSTATUSDETAILS_SOMECOUNTER" xml:space="preserve">
+    <value>Tæller</value>
+  </data>
   <data name="POWEROFF" xml:space="preserve">
     <value>Sluk Styringsenhed</value>
   </data>

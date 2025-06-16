@@ -44,6 +44,16 @@ To build the Demo Driver, open and build this project:
 
 - [DemoDriver.csproj](javascript:clone('https://github.com/milestonesys/mipsdk-samples-plugin','src/PluginSamples.sln');)
 
+## Deploying
+
+To deploy the Demo Driver:
+
+1. Stop the Recording Server Service
+2. From project build output, copy the files `DemoDriver.def` and
+   `DemoDriver.dll` (and `DemoDriver.pdb` if debugging) to
+   `%ProgramFiles%\Milestone\MIPDrivers\DemoDriver\`.
+3. Start the Recording Server Service
+
 ## Running
 
 To try out the Demo Driver sample:
@@ -55,7 +65,7 @@ To try out the Demo Driver sample:
     **as administrator**.  
     **Note:** `DemoDriverDevice.exe` is available here [DemoDriverDevice on GitHub](https://github.com/milestonesys/mipsdk-samples-plugin/tree/main/DemoDriver/DemoDriverDevice)
 3.  By default, the device will use the credentials `root:pass`, the scheme 'http', 
-    the port `22222`, and the MAC address `DE:AD:CO:DE:56:78`. Specify the
+    the port `22222`, and the MAC address `DE:AD:C0:DE:56:78`. Specify the
     desired port, MAC address, and credentials, and then select the
     *Start service* button.
 4.  In the Management Client, use the *Add Hardware\...* wizard with the
@@ -83,16 +93,6 @@ privileges:
 certificate. The latter can be found in the 'Manage Computer Certificates' control panel,
 if you navigate to the installed certificate, double-click it and then you will find the 
 thumbprint in the 'Thumbprint' field on the 'Details' tab.
-
-## Deploying
-
-To deploy the Demo Driver:
-
-1. Stop the Recording Server Service
-2. From project build output, copy the files `DemoDriver.def` and
-   `DemoDriver.dll` (and `DemoDriver.pdb` if debugging) to
-   `%ProgramFiles%\Milestone\MIPDrivers\DemoDriver\`.
-3. Start the Recording Server Service
 
 ## Troubleshooting
 

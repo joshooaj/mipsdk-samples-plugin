@@ -6,7 +6,7 @@ using VideoOS.Platform.AccessControl.Plugin;
 namespace DemoAccessControlPlugin.Managers
 {
     /// <summary>
-    /// This part of the ConfigurationManager class handles the personalized configuraiton.
+    /// This part of the ConfigurationManager class handles the personalized configuration.
     /// The class has been separated for clarity.
     /// </summary>
     internal partial class ConfigurationManager : ACConfigurationManager
@@ -89,7 +89,7 @@ namespace DemoAccessControlPlugin.Managers
                 }
                 else
                 {
-                    FireFetchPersonalizedConfigurationStatusChanged(new ACFetchPersonalizedConfigurationStatusChangedEventArgs("Invalid configuration.", username));
+                    FireFetchPersonalizedConfigurationStatusChanged(new ACFetchPersonalizedConfigurationStatusChangedEventArgs("Invalid configuration! Check Access Control logs.", username));
                 }
             }
             catch (DemoApplicationClientException ex)

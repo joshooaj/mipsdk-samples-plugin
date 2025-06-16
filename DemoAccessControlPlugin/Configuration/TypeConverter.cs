@@ -36,7 +36,6 @@ namespace DemoAccessControlPlugin.Configuration
                 sourceId = CreateAccessPointId(dce.DoorId, dce.AccessPoint);
             }
             else
-
             {
                 sourceId = dce.DoorId.ToString();
             }
@@ -70,7 +69,7 @@ namespace DemoAccessControlPlugin.Configuration
             // Door
             var parentId = door.DoorControllerId != Guid.Empty ? door.DoorControllerId.ToString() : null;
             var doorId = door.DoorId.ToString();
-            yield return new ACUnit(doorId, door.DoorName, ACBuiltInIconKeys.Door, null, TypeId.Door, parentId, unsupportedCommands) { IsEnabled = door.Enabled };
+            yield return new ACUnit(doorId, door.DoorName, ACBuiltInIconKeys.Door, door.Latitude, door.Longitude, null, TypeId.Door, parentId, unsupportedCommands) { IsEnabled = door.Enabled };
 
             // The access points in the Demo Access Control are not returned explicitly, but are numbered 1 and 2 based on the door.
             // Outside access point
@@ -121,6 +120,12 @@ namespace DemoAccessControlPlugin.Configuration
         private static string CreateAccessPointId(Guid doorId, int accessPoint)
         {
             return string.Format("AP{0}_{1}", accessPoint, doorId);
+        }
+
+        public static string GetDoorIdFromAccessPointId(string accessPointId)
+        {
+            int underscoreIndex = accessPointId.IndexOf('_');
+            return accessPointId.Substring(underscoreIndex + 1);
         }
 
         private static IEnumerable<string> GetDoorStates(DoorStatus status)

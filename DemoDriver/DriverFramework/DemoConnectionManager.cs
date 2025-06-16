@@ -42,7 +42,7 @@ namespace DemoDriver
         /// <param name="hardwareSettings"></param>
         public override void Connect(Uri uri, string userName, SecureString password, ICollection<HardwareSetting> hardwareSettings)
         {
-            _connected = false;
+            Close();
             _uri = uri;
             _userName = userName;
             _scrambledPassword = password;
@@ -65,6 +65,11 @@ namespace DemoDriver
         /// </summary>
         public override void Close()
         {
+            if (_inputPoller != null)
+            {
+                _inputPoller.Stop();
+                _inputPoller = null;
+            }
             _connected = false;
             _lastConnectCheck = DateTime.MinValue;
         }
@@ -97,6 +102,7 @@ namespace DemoDriver
         /// </summary>
         /// <param name="firmwarePath"></param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("", "S2083", Justification = "Interface is only exposed locally as it is hosted by driver proxy application")]
         public override Guid StartFirmwareUpgrade(string firmwarePath)
         {
             ThrowIfNotConnected();
@@ -159,12 +165,12 @@ namespace DemoDriver
             }
         }
 
-        public byte[] GetLiveFrame(int channel, bool color)
+        public byte[] GetLiveFrame(int channel, int stream, bool color)
         {
             ThrowIfNotConnected();
             if (_proxy != null)
             {
-                return _proxy.Client.GetLiveFrame(channel, color);
+                return _proxy.Client.GetLiveFrame(channel, stream, color);
             }
             return null;
         }
@@ -242,12 +248,19 @@ namespace DemoDriver
             return new PtzGetAbsoluteData() { Pan = position[0], Tilt = position[1], Zoom = position[2] };
         }
 
-        public void ChangeSetting(int channel, string key, string data)
+        public ChangePasswordResult ChangePassword(string targetUsername, string password)
+        {
+            ThrowIfNotConnected();
+            Toolbox.Log.Trace(nameof(ChangePassword));
+            return (ChangePasswordResult)_proxy.Client.ChangePassword(targetUsername, password);
+        }
+
+        public void ChangeSetting(int channel, int stream, string key, string data)
         {
             ThrowIfNotConnected();
             if (_proxy != null)
             {
-                _proxy.Client.ChangeSetting(channel, key, data);
+                _proxy.Client.ChangeSetting(channel, stream, key, data);
             }
         }
 
@@ -301,7 +314,7 @@ namespace DemoDriver
         /// </summary>
         /// <param name="password"></param>
         /// <returns>Reference to unsecured password string</returns>
-        private static string SecureStringToString(SecureString password)
+        internal static string SecureStringToString(SecureString password)
         {
             IntPtr unmanagedString = IntPtr.Zero;
             try
